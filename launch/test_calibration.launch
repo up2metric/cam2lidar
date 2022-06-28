@@ -1,0 +1,11 @@
+<launch>
+    <!-- <node pkg="image_transport" type="republish" name="compressed_to_image_raw" args="compressed in:=/econ_cam_1/image_raw raw out:=/image_raw"/> -->
+    <node pkg="image_proc" name="rectification" type="image_proc">
+        <remap from="image_raw" to="/econ_cam_0/image_raw"/>
+        <remap from="camera_info" to="/camera_info"/>
+    </node>
+    <node pkg="topic_tools" type="relay" name="pipe_camera_info" args="/econ_cam_0/camera_info /camera_info"/>
+    <node pkg="tf2_ros" type="static_transform_publisher" name="link1_broadcaster" args="0.030909468505789617 -0.034855016094999275 -0.06102293403184561 -0.28602087548289484 0.6509251364204426 -0.6466414029383899 0.2763031334782461 velodyne cam_0"/>
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find lidar_camera_calibration)/launch/calib_check.rviz"/>
+
+</launch>

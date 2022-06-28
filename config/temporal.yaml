@@ -1,0 +1,26 @@
+# Clustering DBSCAN
+clustering_eps: 0.5
+clustering_min_samples: 10
+
+# Detect apriltag
+tag_family: "tag36h11"
+
+# Detect pointcloud
+# pcd segment plane
+segment_dist_thres: 0.02
+segment_ransac_n: 3
+segment_num_iterations: 10000
+
+# Ransac 1:
+ransac1_min_samples: 2
+ransac1_res_thres: 0.02
+ransac1_max_trials: 5000
+
+# # Ransac 2:
+ransac2_min_samples: 2
+ransac2_res_thres: 0.02
+ransac2_max_trials: 5000
+
+# Temporal calibration
+intensity thres: 200
+distance from prev: 0

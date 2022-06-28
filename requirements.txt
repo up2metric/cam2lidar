@@ -1,0 +1,10 @@
+# pip install -r requirements.txt
+
+apriltag
+scikit-learn
+open3d 
+numpy==1.21.3
+scikit-spatial
+scikit-image
+pyside6
+opencv-python==4.5.3.56
