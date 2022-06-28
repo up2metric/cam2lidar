@@ -117,16 +117,16 @@ class Calibration_data_collect():
             global intensity_threshold
             if p[-1] >= intensity_threshold:
                 list_of_points.append([p[0], p[1], p[2]])
-        # try:
-        clustered_points = clustering(np.array(list_of_points))
-        xyz = geometric_calculation(clustered_points)
-        apply_mask.value = 1
-        with open(self.path + '/output/lidar_points.txt', 'ab') as f:
-            np.savetxt(f, np.column_stack(xyz))
-        with open(self.path + '/output/image_points.txt', 'ab') as f:
-            np.savetxt(f, np.column_stack([cX, cY]))
-        # except:
-        #     rospy.logwarn('Exception occured.')
+        try:
+            clustered_points = clustering(np.array(list_of_points))
+            xyz = geometric_calculation(clustered_points)
+            apply_mask.value = 1
+            with open(self.path + '/output/lidar_points.txt', 'ab') as f:
+                np.savetxt(f, np.column_stack(xyz))
+            with open(self.path + '/output/image_points.txt', 'ab') as f:
+                np.savetxt(f, np.column_stack([cX, cY]))
+        except:
+            rospy.logwarn('Exception occured.')
 
                 
 if __name__ == '__main__':
