@@ -59,27 +59,3 @@ roslaunch lidar_camera_calibration temporal.launch
 ```
 
 and set the distance threshold and the number of consequent parameters.
-
-## Apriltag detection
-
-- Execute the following:
-
-```
-python3 ./src/img_target_det.py
-```
-
-- Choose the directory that contains the images through the dialog box.
-
-## Lidar detection
-
-- Extract points from bag file and perform clustering to the extracted data:
-
-```
-python3 ./src/velo_calib_dbscan.py -b <name of bag file>
-```
-
-- Detect intersection:
-
-```
-python3 ./src/skspatial_laz.py -i <text file including clustered points>
-```
