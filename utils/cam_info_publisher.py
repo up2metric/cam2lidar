@@ -43,7 +43,7 @@ def yaml_to_CameraInfo(yaml_fname):
 
 if __name__ == "__main__":
     rp = RosPack()
-    path = rp.get_path('lidar_camera_calibration')
+    path = rp.get_path('cam2lidar')
     calib_yaml = path + '/output/camera.yaml'
 
     # Parse yaml file

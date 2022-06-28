@@ -21,7 +21,7 @@ class MainApp(QWidget):
         QWidget.__init__(self)
         self.bridge = CvBridge()
         rp = RosPack()
-        self.path = rp.get_path('lidar_camera_calibration')
+        self.path = rp.get_path('cam2lidar')
         self.topics = []
         self.subscriber_name = rospy.get_param('~subscriber_name')
         self.camera_info_topic = rospy.get_param('~camera_info_topic')

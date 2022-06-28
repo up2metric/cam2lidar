@@ -35,7 +35,7 @@ class Calibration_data_collect():
         self.pub_viz = rospy.Publisher('/temporal_visualization', Image, queue_size=10)
 
         rp = RosPack()
-        self.path = rp.get_path('lidar_camera_calibration')
+        self.path = rp.get_path('cam2lidar')
         self.i = 0
         self.counter = 0
         self.centersX = []

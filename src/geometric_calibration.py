@@ -43,7 +43,7 @@ class Calibration_data_collect():
         self.prevY = 0      
         self.mask = np.full((2160, 3840, 3),255, dtype = np.uint8)
         rp = RosPack()
-        self.path = rp.get_path('lidar_camera_calibration')
+        self.path = rp.get_path('cam2lidar')
         rospy.wait_for_service('/parameters_set')
         self.DistanceThreshold = rospy.get_param('/distance_threshold')
         self.ConsequentFrames = rospy.get_param('/consequent_frames')

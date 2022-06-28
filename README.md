@@ -13,12 +13,12 @@ docker build .
 
 3. Run the image (with X11 support):
 ```
-docker run --gpus all -it --privileged -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v <repository location>:/lidar_camera_calibration <image number>
+docker run --gpus all -it --privileged -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v <repository location>:/cam2lidar <image number>
 ```
 Inside the container:
 ```
 cd /root/catkin_ws
-ln -sf /lidar_camera_calibration/ src/
+ln -sf /cam2lidar/ src/
 catkin_make
 source devel/setup.bash 
 ```
@@ -31,7 +31,7 @@ xhost +
 ```
 Also, use this docker run command to share the same roscore between the docker container and the host.
 ```
-docker run --gpus all -it --privileged --net=host -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v <repository location>:/lidar_camera_calibration <image number>
+docker run --gpus all -it --privileged --net=host -e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v <repository location>:/cam2lidar <image number>
 ```
 
 ## Prepare data for calibration
@@ -45,7 +45,7 @@ Then set the input topics at the launch file that you will execute.
 Run the bagfile (or publish the necessary topics), execute:
 
 ```
-roslaunch lidar_camera_calibration geometric.launch
+roslaunch cam2lidar geometric.launch
 ```
 
 and set the distance threshold and the number of consequent parameters.
@@ -55,7 +55,7 @@ and set the distance threshold and the number of consequent parameters.
 Run the bagfile (or publish the necessary topics), execute:
 
 ```
-roslaunch lidar_camera_calibration temporal.launch
+roslaunch cam2lidar temporal.launch
 ```
 
 and set the distance threshold and the number of consequent parameters.

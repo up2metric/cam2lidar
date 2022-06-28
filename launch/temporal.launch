@@ -1,6 +1,6 @@
 <launch>
-    <rosparam file="$(find lidar_camera_calibration)/config/temporal.yaml"/>
-    <node pkg="lidar_camera_calibration" name="calibration_data_collection" type="temporal_calibration.py" output="screen">
+    <rosparam file="$(find cam2lidar)/config/temporal.yaml"/>
+    <node pkg="cam2lidar" name="calibration_data_collection" type="temporal_calibration.py" output="screen">
         <param name="image_topic" type="str" value="/econ_cam_0/image_raw"/>
         <param name="camera_info_topic" value="/econ_cam_0/camera_info"/>
         <param name="lidar_topic" type="str" value="/velodyne_points"/>
@@ -8,7 +8,7 @@
         <!-- <param name="consequent_frames" value="15"/> -->
         <param name="debug" value="False"/>
     </node>
-    <node pkg="lidar_camera_calibration" name="Calibration_visualization" type="user_interface.py" output="screen">
+    <node pkg="cam2lidar" name="Calibration_visualization" type="user_interface.py" output="screen">
         <param name="subscriber_name" value="/temporal_visualization"/>
     </node>
 </launch>
