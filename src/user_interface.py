@@ -154,7 +154,7 @@ class MainApp(QWidget):
         self.display_video_stream(frame)
 
 if __name__ == "__main__":
-    rospy.init_node('Calibration_visualization')
+    rospy.init_node('user_interface')
     app = QApplication(sys.argv)
     win = MainApp()
     win.show()

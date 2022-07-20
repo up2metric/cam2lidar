@@ -1,6 +1,6 @@
 <launch>
     <rosparam file="$(find cam2lidar)/config/temporal.yaml"/>
-    <node pkg="cam2lidar" name="calibration_data_collection" type="temporal_calibration.py" output="screen">
+    <node pkg="cam2lidar" name="temporal_calibration" type="temporal_calibration.py" output="screen">
         <param name="image_topic" type="str" value="/econ_cam_0/image_raw"/>
         <param name="camera_info_topic" value="/econ_cam_0/camera_info"/>
         <param name="lidar_topic" type="str" value="/velodyne_points"/>

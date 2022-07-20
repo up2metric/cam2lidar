@@ -8,6 +8,9 @@ import matplotlib.pyplot as plt
 from scipy.spatial.transform import Rotation as R
 import matplotlib
 matplotlib.use('TkAgg')
+import rospy
+
+Repr_Error = rospy.get_param("/reproj_error")
 
 def flatten(t):
     return [item for sublist in t for item in sublist]
@@ -61,7 +64,7 @@ def calibration(file_image, file_lidar, cameraMatrix, distCoeffs):
     imagePoints = np.loadtxt(file_image)
     objectPoints = np.loadtxt(file_lidar)
 
-    retval, rvec, tvec, inliers = cv2.solvePnPRansac(objectPoints, imagePoints, cameraMatrix, distCoeffs, flags=cv2.SOLVEPNP_ITERATIVE)
+    retval, rvec, tvec, inliers = cv2.solvePnPRansac(objectPoints, imagePoints, cameraMatrix, distCoeffs, flags=cv2.SOLVEPNP_ITERATIVE, reprojectionError=Repr_Error)
     plot_inliers_outliers(imagePoints, inliers)
 
     points2D_reproj = cv2.projectPoints(objectPoints, rvec,

@@ -3,7 +3,8 @@ import rospy
 import message_filters
 import numpy as np
 from cv_bridge import CvBridge
-from sensor_msgs.msg import Image, PointCloud2
+from sensor_msgs.msg import Image as ImageMsg
+from sensor_msgs.msg import PointCloud2
 from sensor_msgs import point_cloud2
 from detect_apriltag import detect_apriltag
 from clustering import clustering
@@ -12,11 +13,14 @@ import cv2
 from multiprocessing import Process, Value
 from rospkg import RosPack
 import os
+from img_to_grid import *
 
 intensity_threshold = rospy.get_param("/intensity_thres")
-# DistanceThreshold = 15
-# ConsequentFrames = 15
 DistanceFromPrevious = rospy.get_param("/distance_from_prev")
+GridHorDiv = rospy.get_param("/grid_horizontal_division")
+GridVerDiv = rospy.get_param("/grid_vertical_division")
+ImageHorDim = rospy.get_param("/horizontal_dimension")
+ImageVerDim = rospy.get_param("/vertical_dimension")
 
 class Calibration_data_collect():
     def __init__(self):
@@ -26,12 +30,12 @@ class Calibration_data_collect():
         lidar_topic = rospy.get_param('~lidar_topic')
 
         self.image_sub = message_filters.Subscriber(
-            image_topic, Image)
+            image_topic, ImageMsg)
 
         self.lidar_sub = message_filters.Subscriber(
             lidar_topic, PointCloud2)
 
-        self.pub_viz = rospy.Publisher('/geometric_visualization', Image, queue_size=10)
+        self.pub_viz = rospy.Publisher('/geometric_visualization', ImageMsg, queue_size=10)
 
         self.i = 0
         self.counter = 0
@@ -41,13 +45,23 @@ class Calibration_data_collect():
         self.sampled = False
         self.prevX = 0
         self.prevY = 0      
-        self.mask = np.full((2160, 3840, 3),255, dtype = np.uint8)
+        self.mask = np.full((ImageVerDim, ImageHorDim, 3), 255, dtype = np.uint8)
         rp = RosPack()
         self.path = rp.get_path('cam2lidar')
         rospy.wait_for_service('/parameters_set')
         self.DistanceThreshold = rospy.get_param('/distance_threshold')
         self.ConsequentFrames = rospy.get_param('/consequent_frames')
         self.debug = rospy.get_param('~debug')
+
+        cut_size = (int(self.mask.shape[1]/GridHorDiv), int(self.mask.shape[0]/GridVerDiv), 3)
+        img = Image.fromarray(self.mask)
+        img_size = img.size
+        rospy.loginfo(img_size)
+        xx, yy = generate_sections(*img_size, cut_size[0], cut_size[1])
+        coords = generate_crop_coordinates(xx, yy)
+        self.subimages = generate_subimages(img, coords)
+        self.grid = []
+
         self.apply_mask = Value('i', 0)
         if self.debug:
             if not os.path.isdir(self.path + '/output/geometric'):
@@ -88,11 +102,22 @@ class Calibration_data_collect():
                 if self.counter == self.ConsequentFrames:
                     cX = self.centersX[self.ConsequentFrames//2]
                     cY = self.centersY[self.ConsequentFrames//2]
+
+                    i = 0
+                    sample = False
+                    for sub in self.subimages:
+                        if(isIn(sub.coords[0], sub.coords[1], (int(cX), int(cY)))):
+                            break
+                        i += 1
+                    if i not in self.grid:
+                        self.prev_gr = i
+                        sample = True
+
                     self.centersX = [cX]
                     self.centersY = [cY]
                     self.counter = 0
-                    self.dist_prev = np.sqrt((cX - self.prevX) ** 2 + (cY - self.prevY) ** 2)
-                    if self.dist_prev > DistanceFromPrevious:
+                    # self.dist_prev = np.sqrt((cX - self.prevX) ** 2 + (cY - self.prevY) ** 2)
+                    if sample:
                         self.apply_mask.value = 0
                         self.prevX = cX
                         self.prevY = cY
@@ -102,6 +127,8 @@ class Calibration_data_collect():
                         p.start()
             self.i += 1
         if self.apply_mask.value:
+            if self.prev_gr not in self.grid:
+                self.grid.append(self.prev_gr)
             cv2.circle(self.mask, [int(self.prevX), int(self.prevY)], 10, (0,255,0), -1)
         msg = self.bridge.cv2_to_imgmsg(cv2.bitwise_and(image, self.mask))
         self.pub_viz.publish(msg)
