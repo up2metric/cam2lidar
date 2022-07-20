@@ -2,6 +2,13 @@
 
 ![](./img/diagram.png)
 
+## Wiki
+You can visit the ros wiki with more information regarding the calibration package.
+
+[cam2lidar](http://wiki.ros.org/cam2lidar)
+
+[cam2lidar tutorial](http://wiki.ros.org/cam2lidar/Tutorials/How%20to%20calibrate%20Lidar%20and%20Camera)
+
 ## Run through Docker
 
 1. Clone the repository.
