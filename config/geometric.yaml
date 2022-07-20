@@ -16,11 +16,16 @@ ransac1_min_samples: 2
 ransac1_res_thres: 0.02
 ransac1_max_trials: 5000
 
-# # Ransac 2:
+# Ransac 2:
 ransac2_min_samples: 2
 ransac2_res_thres: 0.02
 ransac2_max_trials: 5000
 
 # Geometric calibration
+reproj_error: 8
 intensity_thres: 200
 distance_from_prev: 100
+horizontal_dimension: 3840
+vertical_dimension: 2160
+grid_horizontal_division: 5
+grid_vertical_division: 5

@@ -35,6 +35,7 @@ docker run --gpus all -it --privileged --net=host -e DISPLAY -v /tmp/.X11-unix:/
 ```
 
 ## Prepare data for calibration
+![](./img/tag36h11.jpg)
 
 There are two topics that are necessary for the calibration process. One for video and one for Lidar.
 In addition, you will need the intrinsic parameters of the camera.
@@ -48,7 +49,28 @@ Run the bagfile (or publish the necessary topics), execute:
 roslaunch cam2lidar geometric.launch
 ```
 
-and set the distance threshold and the number of consequent parameters.
+and set the following parameters in the config folder.
+
+```
+# Geometric calibration
+reproj_error: 8
+intensity_thres: 200
+distance_from_prev: 100
+horizontal_dimension: 3840
+vertical_dimension: 2160
+grid_horizontal_division: 5
+grid_vertical_division: 5
+```
+
+**reproj_error**: Reprojection error of PnP
+
+**intensity_thres**: Lidar intensity threshold that is considered to be coming from the reflective tape
+
+**distance_from_prev**: Distance (in px) from previous apriltag in order for the movement to be considered as static
+
+**horizontal_dimension/vertical_dimension**: Dimensions of the image
+
+**grid_horizontal_division/grid_vertical_division**: Shape of grid, in order to have one measurement per rectangle
 
 ## Temporal calibration
 
@@ -58,4 +80,4 @@ Run the bagfile (or publish the necessary topics), execute:
 roslaunch cam2lidar temporal.launch
 ```
 
-and set the distance threshold and the number of consequent parameters.
+and set the parameters as mentioned in the Geometric calibration section.
