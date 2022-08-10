@@ -6,7 +6,7 @@
 You can visit the ros wiki with more information regarding the calibration package.
 
 [An Effective Camera-to-Lidar Spatiotemporal Calibration Based
-on a Simple Calibration Target](https://www.mdpi.com/1424-8220/22/15/5576/pdf?version=1658889926)
+on a Simple Calibration Target [pdf]](https://www.mdpi.com/1424-8220/22/15/5576/pdf?version=1658889926)
 
 [cam2lidar](http://wiki.ros.org/cam2lidar)
 
