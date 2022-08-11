@@ -93,6 +93,8 @@ roslaunch cam2lidar temporal.launch
 and set the parameters as mentioned in the Geometric calibration section.
 
 # Citations
+[![DOI](https://zenodo.org/badge/264818686.svg)](https://doi.org/10.3390/s22155576)
+
 The following is a [BibTeX](www.bibtex.org) entry for the Cam2lidar paper that you should cite if you use this model.
 ```
 @article{grammatikopoulos2022effective,
@@ -106,3 +108,4 @@ The following is a [BibTeX](www.bibtex.org) entry for the Cam2lidar paper that y
   publisher={Multidisciplinary Digital Publishing Institute}
 }
 ```
+
