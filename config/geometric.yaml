@@ -25,7 +25,7 @@ ransac2_max_trials: 5000
 reproj_error: 8
 intensity_thres: 200
 distance_from_prev: 100
-horizontal_dimension: 3840
-vertical_dimension: 2160
+horizontal_dimension: 640
+vertical_dimension: 480
 grid_horizontal_division: 5
 grid_vertical_division: 5

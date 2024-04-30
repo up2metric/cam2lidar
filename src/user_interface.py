@@ -29,6 +29,7 @@ class MainApp(QWidget):
 
     def start(self):
         self.image_sub = rospy.Subscriber(self.subscriber_name, Image, self.callback)
+        
         s = rospy.Service('/parameters_set', Empty, self.handler)
 
         if self.subscriber_name == '/geometric_visualization':
@@ -139,8 +140,8 @@ class MainApp(QWidget):
         """
             Read frame from camera and repaint QLabel widget.
         """
-        size = QSize(1280,768)
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        size = QSize(1280,800)
+        # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
         image = QImage(frame, frame.shape[1], frame.shape[0], 
                        frame.strides[0], QImage.Format_RGB888).scaled(size, 
                        Qt.KeepAspectRatioByExpanding)

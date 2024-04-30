@@ -14,6 +14,7 @@ from multiprocessing import Process, Value
 from rospkg import RosPack
 import os
 from img_to_grid import *
+import open3d as o3d
 
 intensity_threshold = rospy.get_param("/intensity_thres")
 DistanceFromPrevious = rospy.get_param("/distance_from_prev")
@@ -56,7 +57,6 @@ class Calibration_data_collect():
         cut_size = (int(self.mask.shape[1]/GridHorDiv), int(self.mask.shape[0]/GridVerDiv), 3)
         img = Image.fromarray(self.mask)
         img_size = img.size
-        rospy.loginfo(img_size)
         xx, yy = generate_sections(*img_size, cut_size[0], cut_size[1])
         coords = generate_crop_coordinates(xx, yy)
         self.subimages = generate_subimages(img, coords)
@@ -122,9 +122,13 @@ class Calibration_data_collect():
                         self.prevX = cX
                         self.prevY = cY
                         if self.debug:
-                            cv2.imwrite(self.path + '/output/geometric/{}.jpg'.format(img.header.seq), cv2.bitwise_and(image, self.mask))
+                            img_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                            img_mask_rgb = cv2.cvtColor(cv2.bitwise_and(image, self.mask), cv2.COLOR_BGR2RGB)
+                            cv2.imwrite(self.path + '/output/geometric/{}.jpg'.format(pc.header.stamp.secs), img_rgb)
+                            cv2.imwrite(self.path + '/output/geometric/{}_mask.jpg'.format(pc.header.stamp.secs), img_mask_rgb)
                         p = Process(target=self.geometric_calibration, args=(self.pc, cX, cY, self.apply_mask))
                         p.start()
+
             self.i += 1
         if self.apply_mask.value:
             if self.prev_gr not in self.grid:
@@ -152,6 +156,16 @@ class Calibration_data_collect():
                 np.savetxt(f, np.column_stack(xyz))
             with open(self.path + '/output/image_points.txt', 'ab') as f:
                 np.savetxt(f, np.column_stack([cX, cY]))
+            if self.debug:
+                save_pc = np.array(save_pc)
+                pc_xyz = save_pc[:, :3]
+                pc_in = save_pc[:, -1].reshape(pc_xyz.shape[0], 1)
+                pc_rgb = np.column_stack((pc_in, pc_in, pc_in)) / 255.0
+                pc_rgb = pc_rgb.reshape(pc_xyz.shape)
+                pcd = o3d.geometry.PointCloud()
+                pcd.points = o3d.utility.Vector3dVector(pc_xyz)
+                pcd.colors = o3d.utility.Vector3dVector(pc_rgb)
+                o3d.io.write_point_cloud(self.path + '/output/geometric/{}.ply'.format(pc.header.stamp.secs), pcd, write_ascii=True)
         except:
             rospy.logwarn('Exception occured.')
 

@@ -28,10 +28,10 @@ def geometric_calculation(points):
 
     # Compute rotation matrix and rotate points, so they are in parallel to the X-axis.
     # a = plane.normal
-    a = [n1, n2, n3]
+    a = np.array([n1, n2, n3])
     b = np.array([1, 0, 0])
     if np.dot(a,b) < 0:
-        a = -a
+        a = -1 * a
 
     v = np.cross(a,b)
     s = np.linalg.norm(v)

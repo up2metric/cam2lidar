@@ -9,7 +9,7 @@ pointcloud = '/home/$USER/1635237581.217818000.pcd'
 def clustering(array):
     eps = rospy.get_param("/clustering_eps")
     min_samples = rospy.get_param("/clustering_min_samples")
-    clustering = DBSCAN(float(eps), int(min_samples), ).fit(array)
+    clustering = DBSCAN(eps = float(eps), min_samples = int(min_samples)).fit(array)
     labels = np.array(clustering.labels_)
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
     labels = np.reshape(labels, (len(labels),1))

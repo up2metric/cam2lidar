@@ -10,10 +10,10 @@ class Synchronize():
     def __init__(self):
 
         self.image_sub = message_filters.Subscriber(
-            "/econ_cam_0/image_raw", Image)
+            "/usb_cam/image_raw", Image)
 
         self.info_sub = message_filters.Subscriber(
-            "/econ_cam_0/camera_info", CameraInfo)
+            "/usb_cam/camera_info", CameraInfo)
 
         self.lidar_sub = message_filters.Subscriber(
             "/velodyne_points", PointCloud2)
