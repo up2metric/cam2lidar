@@ -24,7 +24,7 @@ ransac2_max_trials: 5000
 # Temporal calibration
 intensity thres: 200
 distance from prev: 0
-horizontal_dimension: 3840
-vertical_dimension: 2160
+horizontal_dimension: 1280
+vertical_dimension: 720
 grid_horizontal_division: 5
 grid_vertical_division: 5

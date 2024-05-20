@@ -126,7 +126,8 @@ class Calibration_data_collect():
                 cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,0,0),1,cv2.LINE_AA)
                         cv2.putText(image, 'B', [int(self.centersX[-1]), int(self.centersY[-1])],
                 cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,0,0),1,cv2.LINE_AA)
-                        cv2.imwrite(self.path + '/output/{}.jpg'.format(timestamp), image)
+                        img_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+                        cv2.imwrite(self.path + '/output/{}.jpg'.format(timestamp), img_rgb)
                         rospy.loginfo('bool: {}'.format(check > np.linalg.norm(a)))
                         checked = False
                 if dist > self.DistanceThreshold and checked:
