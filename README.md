@@ -115,7 +115,7 @@ The `/cam2lidar/output/` directory also contains other 4 files that are:
 
 Changing the `debug` parameter in the launch file allows the images and point clouds used in calibration to be saved in the `/cam2lidar/output/geometric` folder.
 
-You can experiment with the software using the [sample dataset (rosbag)](https://filebrowser.homelab.up2metric.com/api/public/dl/VrS6ENzL/store/shared/2024-05-20-10-10-45_cam2lidar_sample.bag).
+You can experiment with the software using the [sample dataset (rosbag)](https://filebrowser.homelab.up2metric.com/share/JJw-BnDA).
 
 To test the software, first play the bagfile:
 ```
