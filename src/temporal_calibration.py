@@ -62,11 +62,10 @@ class Calibration_data_collect():
         self.seq_num = []
         self.procs = []
         self.mask = np.full((ImageVerDim, ImageHorDim, 3), 255, dtype = np.uint8)
-
+        self.img = None
         cut_size = (int(self.mask.shape[1]/GridHorDiv), int(self.mask.shape[0]/GridVerDiv), 3)
         img = Image.fromarray(self.mask)
         img_size = img.size
-        rospy.loginfo(img_size)
         xx, yy = generate_sections(*img_size, cut_size[0], cut_size[1])
         coords = generate_crop_coordinates(xx, yy)
         self.subimages = generate_subimages(img, coords)
@@ -146,6 +145,10 @@ class Calibration_data_collect():
                     self.timestamp_middle = img.header.stamp.to_sec()
                     self.fr_num = img.header.seq
                 if self.counter == self.ConsequentFrames:
+                    if self.img is not None:
+                        proj_img = self.img
+                    else:
+                        rospy.logerror("Image is not set yet")
                     self.apply_mask.value = 0
                     cX = self.centersX[self.ConsequentFrames//2]
                     cY = self.centersY[self.ConsequentFrames//2]
@@ -229,7 +232,7 @@ class Calibration_data_collect():
             if tmp_final:
                 cv2.circle(img, [int(tmp_final[0]), int(tmp_final[1])], 7, (255,0,0), -1)
             if self.debug:
-                cv2.imwrite(self.path + '/output/temporal/{}.jpg'.format(filename), img)
+                cv2.imwrite(self.path + '/output/temporal/{}.jpg'.format(filename), cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
             with open(self.path + '/output/time_difference.txt', 'ab') as f:
                 np.savetxt(f, np.column_stack([1000*(timestamp[list[index]] - timestamp_middle)]), fmt='%d')
             with open(self.path + '/output/timestamps.txt', 'ab') as f:

@@ -107,7 +107,14 @@ class MainApp(QWidget):
         self.slider_con.setFocusPolicy(Qt.NoFocus)
         self.slider_con.setPageStep(1)
         self.slider_con.valueChanged.connect(self.updateLabelcon)
-        self.label_con = QLabel('1', self)
+        if self.subscriber_name == '/geometric_visualization':
+            self.label_con = QLabel('1', self)
+        else: 
+            self.label_con = QLabel('2', self)
+            self.slider_con.setRange(2,20)
+            self.slider_con.setFocusPolicy(Qt.NoFocus)
+            self.slider_con.setPageStep(1)
+            self.slider_con.valueChanged.connect(self.updateLabelcon)
         self.label_con.setAlignment(Qt.AlignCenter | Qt.AlignRight)
 
         self.quit_button = QPushButton("Quit")

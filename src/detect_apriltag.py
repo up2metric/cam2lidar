@@ -18,7 +18,6 @@ def detect_apriltag(image):
     options = apriltag.DetectorOptions(families=tagFamily)
     detector = apriltag.Detector(options)
     results = detector.detect(gray)
-    # print("[INFO] {} total AprilTags detected".format(len(results)))
 
     if len(results) > 0:
         for r in results:

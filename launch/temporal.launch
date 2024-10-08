@@ -6,7 +6,7 @@
         <param name="lidar_topic" type="str" value="/velodyne_points"/>
         <!-- <param name="distance_threshold" value="15"/> -->
         <!-- <param name="consequent_frames" value="15"/> -->
-        <param name="debug" value="False"/>
+        <param name="debug" value="True"/>
     </node>
     <node pkg="cam2lidar" name="Calibration_visualization" type="user_interface.py" output="screen">
         <param name="subscriber_name" value="/temporal_visualization"/>

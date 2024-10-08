@@ -52,12 +52,12 @@ Visualization Manager:
         Z: 0
       Plane: XY
       Plane Cell Count: 10
-      Reference Frame: usb_cam
+      Reference Frame: velodyne
       Value: true
     - Class: rviz/Camera
       Enabled: true
       Image Rendering: background and overlay
-      Image Topic: /image_rect_color
+      Image Topic: /camera/color/image_raw
       Name: Camera
       Overlay Alpha: 0.20000000298023224
       Queue Size: 2
@@ -101,7 +101,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: usb_cam
+    Fixed Frame: velodyne
     Frame Rate: 30
   Name: root
   Tools:

@@ -117,13 +117,13 @@ Changing the `debug` parameter in the launch file allows the images and point cl
 
 You can experiment with the software using the [sample dataset (rosbag)](https://filebrowser.homelab.up2metric.com/share/J1vaDI4Z).
 
-To test the software, first play the bagfile:
-```
-rosbag play <bagfile>
-```
-and then execute:
+To test the software, first execute:
 ```
 roslaunch cam2lidar geometric.launch
+```
+and then play the bagfile:
+```
+rosbag play <bagfile>
 ```
 
 # Citations
